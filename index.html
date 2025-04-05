@@ -1,0 +1,1211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LearnHub - Interactive Learning Platform</title>
+    <style>
+        /* Global Styles */
+        :root {
+            --primary: #4e54c8;
+            --secondary: #8f94fb;
+            --accent: #f46b45;
+            --light: #f8f9fa;
+            --dark: #343a40;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: var(--dark);
+            min-height: 100vh;
+        }
+        
+        /* Header Styles */
+        header {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            position: relative;
+            z-index: 10;
+        }
+        
+        .logo {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(to right, #ffffff, #e0e0e0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        .tagline {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        /* Navigation */
+        nav {
+            background: white;
+            padding: 1rem;
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .nav-btn {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 50px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(78, 84, 200, 0.3);
+        }
+        
+        .nav-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(78, 84, 200, 0.4);
+        }
+        
+        .nav-btn.active {
+            background: linear-gradient(to right, var(--accent), #f46b45);
+        }
+        
+        /* Main Content */
+        .content-section {
+            display: none;
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .content-section.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        h2 {
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+            text-align: center;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+        
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            border-radius: 3px;
+        }
+        
+        /* Subjects Grid */
+        .subjects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .subject-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .subject-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .subject-header {
+            padding: 1.5rem;
+            color: white;
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        
+        .english { background: linear-gradient(135deg, #ff758c 0%, #ff7eb3 100%); }
+        .hindi { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .kannada { background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); }
+        .maths { background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%); }
+        .award { background: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%); }
+        
+        .subject-content {
+            padding: 1.5rem;
+        }
+        
+        .topic-btn {
+            display: block;
+            width: 100%;
+            padding: 0.8rem;
+            margin-bottom: 0.8rem;
+            border: none;
+            border-radius: 6px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .topic-btn:hover {
+            opacity: 0.9;
+            transform: translateX(5px);
+        }
+        
+        /* Award Winners Section */
+        .winners-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .winner-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+        
+        .winner-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .winner-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-bottom: 4px solid var(--primary);
+        }
+        
+        .winner-info {
+            padding: 1.5rem;
+        }
+        
+        .winner-name {
+            font-size: 1.3rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .winner-year {
+            color: var(--accent);
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        
+        .winner-bio {
+            font-size: 0.9rem;
+            color: #555;
+            margin-bottom: 1rem;
+        }
+        
+        /* Winner Details Section */
+        .winner-details {
+            display: none;
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-top: 2rem;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .winner-details.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .winner-details h3 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            text-align: center;
+            font-size: 1.8rem;
+        }
+        
+        .winner-details img {
+            display: block;
+            margin: 0 auto 1.5rem;
+            border-radius: 8px;
+            max-width: 300px;
+            height: auto;
+        }
+        
+        .winner-details table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1.5rem;
+        }
+        
+        .winner-details table tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        
+        .winner-details table td {
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            vertical-align: top;
+        }
+        
+        .winner-details table td:first-child {
+            font-weight: 600;
+            width: 30%;
+        }
+        
+        .back-btn {
+            display: block;
+            margin: 1.5rem auto 0;
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 6px;
+            background: var(--accent);
+            color: white;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .back-btn:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+        
+        /* Footer */
+        footer {
+            background: linear-gradient(to right, var(--dark), #495057);
+            color: white;
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: 3rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .subjects-grid, .winners-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            nav {
+                gap: 0.8rem;
+            }
+            
+            .nav-btn {
+                padding: 0.6rem 1rem;
+                font-size: 0.9rem;
+            }
+            
+            .winner-details img {
+                max-width: 100%;
+            }
+            
+            .winner-details table td {
+                display: block;
+                width: 100%;
+                box-sizing: border-box;
+            }
+            
+            .winner-details table td:first-child {
+                font-weight: 600;
+                width: 100%;
+                background-color: #f8f9fa;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">EdTech</div>
+        <div class="tagline">Interactive Learning Platform for All Ages</div>
+    </header>
+    
+    <nav>
+        <button class="nav-btn active" onclick="showSection('home')">Home</button>
+        <button class="nav-btn" onclick="showSection('english')">English</button>
+        <button class="nav-btn" onclick="showSection('hindi')">Hindi</button>
+        <button class="nav-btn" onclick="showSection('kannada')">Kannada</button>
+        <button class="nav-btn" onclick="showSection('maths')">Maths</button>
+        <button class="nav-btn" onclick="showSection('award')">Kannada Jnanapeeta Winners</button>
+    </nav>
+    
+    <!-- Home Section -->
+    <section id="home" class="content-section active">
+        <h2>Welcome to LearnHub</h2>
+        <p style="text-align: center; margin-bottom: 2rem; max-width: 800px; margin-left: auto; margin-right: auto;">
+            Discover interactive learning resources for English, Hindi, Kannada languages and Mathematics. 
+            Explore our comprehensive educational content designed to make learning fun and effective.
+        </p>
+        
+        <div class="subjects-grid">
+            <div class="subject-card">
+                <div class="subject-header english">English Grammar</div>
+                <div class="subject-content">
+                    <p>Master the fundamentals of English language with our interactive lessons:</p>
+                    <button class="topic-btn" onclick="showSection('english')">Explore English</button>
+                </div>
+            </div>
+            
+            <div class="subject-card">
+                <div class="subject-header hindi">Hindi Grammar</div>
+                <div class="subject-content">
+                    <p>Learn Hindi grammar concepts with easy-to-understand examples:</p>
+                    <button class="topic-btn" onclick="showSection('hindi')">Explore Hindi</button>
+                </div>
+            </div>
+            
+            <div class="subject-card">
+                <div class="subject-header kannada">Kannada Grammar</div>
+                <div class="subject-content">
+                    <p>Discover the beauty of Kannada language and its grammar:</p>
+                    <button class="topic-btn" onclick="showSection('kannada')">Explore Kannada</button>
+                </div>
+            </div>
+            
+            <div class="subject-card">
+                <div class="subject-header maths">Mathematics</div>
+                <div class="subject-content">
+                    <p>Build strong math skills with our formula guides and examples:</p>
+                    <button class="topic-btn" onclick="showSection('maths')">Explore Maths</button>
+                </div>
+            </div>
+            
+            <div class="subject-card">
+                <div class="subject-header award">Kannada Jnanapeeta</div>
+                <div class="subject-content">
+                    <p>Learn about the prestigious Jnanapeeta award winners from Karnataka:</p>
+                    <button class="topic-btn" onclick="showSection('award')">Explore Winners</button>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- English Section -->
+    <section id="english" class="content-section">
+        <h2>English Grammar Topics</h2>
+        <div class="subjects-grid">
+            <div class="subject-card">
+                <div class="subject-header english">Parts of Speech</div>
+                <div class="subject-content">
+                    <p><strong>Nouns:</strong> Names of people, places, things, or animals.<br>
+                    <strong>Verbs:</strong> Actions or states of being.<br>
+                    <strong>Adjectives:</strong> Describe nouns.<br>
+                    <strong>Adverbs:</strong> Describe verbs, adjectives, or other adverbs.<br>
+                    <strong>Pronouns:</strong> Words that replace nouns.</p>
+                </div>
+            </div>
+            
+            <div class="subject-card">
+                <div class="subject-header english">Sentence Structure</div>
+                <div class="subject-content">
+                    <p><strong>Subject:</strong> The person or thing doing the action.<br>
+                    <strong>Predicate:</strong> The action or description.<br>
+                    <strong>Articles:</strong> "A," "an," and "the" are used with nouns.</p>
+                </div>
+            </div>
+            
+            <div class="subject-card">
+                <div class="subject-header english">Punctuation</div>
+                <div class="subject-content">
+                    <p><strong>Capital letters:</strong> Start sentences or proper nouns.<br>
+                    <strong>Full stop/Period:</strong> End a sentence.<br>
+                    <strong>Comma:</strong> Separate items in a list.<br>
+                    <strong>Question mark:</strong> End a question.<br>
+                    <strong>Exclamation mark:</strong> Show excitement or strong emotion.</p>
+                </div>
+            </div>
+            
+            <div class="subject-card">
+                <div class="subject-header english">Singular and Plural</div>
+                <div class="subject-content">
+                    <p><strong>Singular:</strong> One object/person.<br>
+                    <strong>Plural:</strong> More than one.<br>
+                    Rules:<br>
+                    Add -s (cat → cats)<br>
+                    Add -es (bus → buses)<br>
+                    Irregular: Child → children</p>
+                </div>
+            </div>
+            
+            <div class="subject-card">
+                <div class="subject-header english">Basic Questions</div>
+                <div class="subject-content">
+                    <p>Who, what, where, when, why, how.<br>
+                    Example: "Where is the dog?"</p>
+                </div>
+            </div>
+            
+            <div class="subject-card">
+                <div class="subject-header english">Tenses</div>
+                <div class="subject-content">
+                    <p><strong>Past:</strong> "I played."<br>
+                    <strong>Present:</strong> "I play."<br>
+                    <strong>Future:</strong> "I will play."</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Hindi Section -->
+    <section id="hindi" class="content-section">
+        <h2>हिंदी व्याकरण</h2>
+        <div class="subjects-grid">
+            <div class="subject-card">
+                <div class="subject-header hindi">संज्ञा</div>
+                <div class="subject-content">
+                    <p>संज्ञा वह शब्द है जो किसी व्यक्ति, स्थान, वस्तु या भाव का बोध कराता है।<br>
+                    उदाहरण: राम, दिल्ली, पुस्तक।</p>
+                </div>
+            </div>
+            
+            <div class="subject-card">
+                <div class="subject-header hindi">सर्वनाम</div>
+                <div class="subject-content">
+                    <p>सर्वनाम वह शब्द है जो संज्ञा के स्थान पर प्रयोग होता है।<br>
+                    उदाहरण: वह, यह, आप।</p>
+                </div>
+            </div>
+            
+            <div class="subject-card">
+                <div class="subject-header hindi">क्रिया</div>
+                <div class="subject-content">
+                    <p>क्रिया वह शब्द है जो किसी कार्य या अवस्था का बोध कराता है।<br>
+                    उदाहरण: दौड़ना, पढ़ना।</p>
+                </div>
+            </div>
+            
+            <div class="subject-card">
+                <div class="subject-header hindi">विशेषण</div>
+                <div class="subject-content">
+                    <p>विशेषण वह शब्द है जो संज्ञा या सर्वनाम की विशेषता बताता है।<br>
+                    उदाहरण: सुन्दर, बड़ा।</p>
+                </div>
+            </div>
+            
+            <div class="subject-card">
+                <div class="subject-header hindi">अव्यय</div>
+                <div class="subject-content">
+                    <p>अव्यय ऐसे शब्द हैं जो अपरिवर्तनीय होते हैं और वाक्य में विशेष कार्य करते हैं।<br>
+                    उदाहरण: ही, भी।</p>
+                </div>
+            </div>
+            
+            <div class="subject-card">
+                <div class="subject-header hindi">संधि</div>
+                <div class="subject-content">
+                    <p>संधि दो शब्दों के मेल से बनने वाले नए शब्द को कहते हैं।</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Kannada Section -->
+    <section id="kannada" class="content-section">
+        <h2>ಕನ್ನಡ ವ್ಯಾಕರಣ</h2>
+        <div class="subjects-grid">
+            <div class="subject-card">
+                <div class="subject-header kannada">ವರ್ಣಮಾಲೆ</div>
+                <div class="subject-content">
+                    <p><strong>ಕನ್ನಡದಲ್ಲಿ ೫೨ ಅಕ್ಷರಗಳಿವೆ</strong></p>
+                    <p><strong>ಸ್ವರಗಳು:</strong> ಸ್ವತಂತ್ರವಾಗಿ ಉಚ್ಚರಿಸಬಹುದಾದ ಅಕ್ಷರಗಳು (ಉದಾ: ಅ, ಇ).<br>
+                    ಅ, ಆ, ಇ, ಈ, ಉ, ಊ, ಋ, ಎ, ಏ, ಐ, ಒ, ಓ, ಔ, ಅಂ, ಅಃ</p>
+                    <p><strong>ವ್ಯಂಜನಗಳು:</strong> ಸ್ವರದ ಸಹಾಯದಿಂದ ಮಾತ್ರ ಉಚ್ಚರಿಸಬಹುದಾದ ಅಕ್ಷರಗಳು (ಉದಾ: ಕ, ಗ).</p>
+                </div>
+            </div>
+            
+            <div class="subject-card">
+                <div class="subject-header kannada">ಪದಗಳು</div>
+                <div class="subject-content">
+                    <p>ಪದವೆಂದರೆ ಒಂದು ಅರ್ಥವನ್ನು ಸೂಚಿಸುವ ಅಕ್ಷರದ ಗುಂಪು. ಉದಾಹರಣೆ: ಮನೆ, ಕತ್ತೆ, ಮನುಷ್ಯ.</p>
+                    <p><strong>ಪದಗಳು ಮೂರು ಭಾಗವಾಗಿವೆ:</strong><br>
+                    <strong>1.ನಾಮಪದ:</strong> ಹೆಸರುಗಳನ್ನು ಸೂಚಿಸುವ ಪದಗಳು<br>
+                    <strong>2.ಕ್ರಿಯಾಪದ:</strong> ಕೆಲಸವನ್ನು ಸೂಚಿಸುವ ಪದಗಳು<br>
+                    <strong>3.ವಿಶೇಷಣ:</strong> ನಾಮಪದವನ್ನು ವಿವರಿಸುವ ಪದಗಳು</p>
+                </div>
+            </div>
+            
+            <div class="subject-card">
+                <div class="subject-header kannada">ವಾಕ್ಯ ರಚನೆ</div>
+                <div class="subject-content">
+                    <p>ವಾಕ್ಯವು ಪದಗಳ ಸರಿಯಾದ ಸಮೂಹದಿಂದ ರಚನೆಯಾಗುತ್ತದೆ. ಇದು ಒಂದು ಪೂರ್ಣ ಅರ್ಥವನ್ನು ವ್ಯಕ್ತಪಡಿಸುತ್ತದೆ.<br>
+                    ಉದಾಹರಣೆ: ರವಿ ಶಾಲೆಗೆ ಹೋಗುತ್ತಾನೆ.</p>
+                    <p><strong>ವಾಕ್ಯದ ಮಾದರಿ:</strong><br>
+                    ಕರ್ಥೃ (ಯಾರು?)<br>
+                    ಕ್ರಿಯೆ (ಏನು ಮಾಡಿದರು?)<br>
+                    ಕರ್ಮ (ಯಾವುದಕ್ಕೆ?)</p>
+                </div>
+            </div>
+            
+            <div class="subject-card">
+                <div class="subject-header kannada">ಸಂಧಿ</div>
+                <div class="subject-content">
+                    <p>ಸಂಧಿ ಎಂದರೆ ಎರಡು ಅಕ್ಷರಗಳು ಅಥವಾ ಪದಗಳು ಸೇರಿ ಹೊಸ ಶಬ್ದವನ್ನು ರಚಿಸುವುದು.<br>
+                    ಉದಾಹರಣೆ: ರಾಮ + ಐಶ್ವರ್ಯ = ರಾಮೈಶ್ವರ್ಯ.</p>
+                </div>
+            </div>
+            
+            <div class="subject-card">
+                <div class="subject-header kannada">ಲಿಂಗಗಳು</div>
+                <div class="subject-content">
+                    <p><strong>ಪುಲಿಂಗ:</strong> ಗಂಡು ಸಂಬಂಧಿ<br>
+                    ಉದಾಹರಣೆ: ಕರು, ಸಿಂಹ.</p>
+                    <p><strong>ಸ್ತ್ರೀಲಿಂಗ:</strong> ಹೆಣ್ಣು ಸಂಬಂಧಿ<br>
+                    ಉದಾಹರಣೆ: ನಾರಿ, ಹಾಸಿ.</p>
+                    <p><strong>ನಪುಂಸಕಲಿಂಗ:</strong> ಲಿಂಗ ಇಲ್ಲದ ಪದ<br>
+                    ಉದಾಹರಣೆ: ಮನೆ, ಮರ.</p>
+                </div>
+            </div>
+            
+            <div class="subject-card">
+                <div class="subject-header kannada">ಕಾಲಗಳು</div>
+                <div class="subject-content">
+                    <p>ಕಾಲವನ್ನು ಮೂರು ಪ್ರಕಾರಗಳಲ್ಲಿ ವಿಂಗಡಿಸಲಾಗಿದೆ:</p>
+                    <p><strong>ಭೂತಕಾಲ:</strong> ನಾನು ಶಾಲೆಗೆ ಹೋದೆ.<br>
+                    <strong>ವರ್ತಮಾನಕಾಲ:</strong> ನಾನು ಓದುತ್ತಿದ್ದೇನೆ.<br>
+                    <strong>ಭವಿಷ್ಯತ್ತಕಾಲ:</strong> ನಾನು ಓದುವೆ.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Maths Section -->
+    <section id="maths" class="content-section">
+        <h2>Mathematics Formulas</h2>
+        <div class="subjects-grid">
+            <div class="subject-card">
+                <div class="subject-header maths">Addition</div>
+                <div class="subject-content">
+                    <p>Addition combines numbers to find their total sum.<br>
+                    <strong>Example:</strong> 3 + 5 = 8<br>
+                    Here, 3 and 5 are addends, and 8 is the sum.</p>
+                </div>
+            </div>
+            
+            <div class="subject-card">
+                <div class="subject-header maths">Subtraction</div>
+                <div class="subject-content">
+                    <p>Subtraction finds the difference between numbers.<br>
+                    <strong>Example:</strong> 8 - 3 = 5<br>
+                    <strong>Minuend:</strong> 8<br>
+                    <strong>Subtrahend:</strong> 3<br>
+                    <strong>Difference:</strong> 5</p>
+                </div>
+            </div>
+            
+            <div class="subject-card">
+                <div class="subject-header maths">Multiplication</div>
+                <div class="subject-content">
+                    <p>Multiplication is repeated addition.<br>
+                    <strong>Example:</strong> 4 × 3 = 4 + 4 + 4 = 12<br>
+                    <strong>Multiplicand:</strong> 4<br>
+                    <strong>Multiplier:</strong> 3<br>
+                    <strong>Product:</strong> 12</p>
+                </div>
+            </div>
+            
+            <div class="subject-card">
+                <div class="subject-header maths">Division</div>
+                <div class="subject-content">
+                    <p>Division splits a number into equal parts.<br>
+                    <strong>Example:</strong> 12 ÷ 3 = 4<br>
+                    <strong>Dividend:</strong> 12<br>
+                    <strong>Divisor:</strong> 3<br>
+                    <strong>Quotient:</strong> 4</p>
+                </div>
+            </div>
+            
+            <div class="subject-card">
+                <div class="subject-header maths">Geometry</div>
+                <div class="subject-content">
+                    <p><strong>Points:</strong> Locations in space<br>
+                    <strong>Lines:</strong> One-dimensional figures<br>
+                    <strong>Angles:</strong> Formed by two rays<br>
+                    <strong>Triangles:</strong> 3-sided polygons<br>
+                    <strong>Circles:</strong> All points equidistant from center</p>
+                </div>
+            </div>
+            
+            <div class="subject-card">
+                <div class="subject-header maths">Algebra</div>
+                <div class="subject-content">
+                    <p><strong>Basic Operations:</strong> a + b, a - b, a × b, a ÷ b<br>
+                    <strong>Distributive Property:</strong> a(b + c) = ab + ac<br>
+                    <strong>Linear Equations:</strong> ax + b = c → x = (c - b)/a<br>
+                    <strong>Quadratic Formula:</strong> x = [-b ± √(b² - 4ac)] / 2a</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Kannada Jnanapeeta Winners Section -->
+    <section id="award" class="content-section">
+        <h2>ಕನ್ನಡ ಜ್ಞಾನಪೀಠ ಪ್ರಶಸ್ತಿ ವಿಜೇತರು</h2>
+        <p style="text-align: center; margin-bottom: 2rem;">
+            ಭಾರತದ ಅತ್ಯುನ್ನತ ಸಾಹಿತ್ಯ ಪ್ರಶಸ್ತಿಯಾದ ಜ್ಞಾನಪೀಠ ಪ್ರಶಸ್ತಿ ಗೆದ್ದ ಕನ್ನಡದ ಪ್ರತಿಭಾವಂತ ಸಾಹಿತಿಗಳು
+        </p>
+        
+        <div class="winners-grid">
+            <div class="winner-card">
+                <img src="https://via.placeholder.com/300x200?text=Kuvempu" alt="Kuvempu" class="winner-img">
+                <div class="winner-info">
+                    <div class="winner-name">ಕುವೆಂಪು</div>
+                    <div class="winner-year">1967</div>
+                    <div class="winner-bio">ಶ್ರೀ ರಾಮಾಯಣ ದರ್ಶನಂ ಕೃತಿಗಾಗಿ ಜ್ಞಾನಪೀಠ ಪ್ರಶಸ್ತಿ ಪಡೆದರು</div>
+                    <button class="topic-btn" onclick="showWinnerDetails('kuvempu')">View Details</button>
+                </div>
+            </div>
+            
+            <div class="winner-card">
+                <img src="https://via.placeholder.com/300x200?text=Dr.+R.+Bendre" alt="Dr. R. Bendre" class="winner-img">
+                <div class="winner-info">
+                    <div class="winner-name">ಡಾ. ರ. ಬೇಂದ್ರೆ</div>
+                    <div class="winner-year">1972</div>
+                    <div class="winner-bio">ನಾಕುತಂತಿ ಕೃತಿಗಾಗಿ ಜ್ಞಾನಪೀಠ ಪ್ರಶಸ್ತಿ ಪಡೆದರು</div>
+                    <button class="topic-btn" onclick="showWinnerDetails('bendre')">View Details</button>
+                </div>
+            </div>
+            
+            <div class="winner-card">
+                <img src="https://via.placeholder.com/300x200?text=Shivaram+Karanth" alt="Shivaram Karanth" class="winner-img">
+                <div class="winner-info">
+                    <div class="winner-name">ಶಿವರಾಮ ಕಾರಂತ</div>
+                    <div class="winner-year">1977</div>
+                    <div class="winner-bio">ಮುಕಾಜಿ ಕೃತಿಗಾಗಿ ಜ್ಞಾನಪೀಠ ಪ್ರಶಸ್ತಿ ಪಡೆದರು</div>
+                    <button class="topic-btn" onclick="showWinnerDetails('karanth')">View Details</button>
+                </div>
+            </div>
+            
+            <div class="winner-card">
+                <img src="https://via.placeholder.com/300x200?text=Masti+Venkatesha+Iyengar" alt="Masti Venkatesha Iyengar" class="winner-img">
+                <div class="winner-info">
+                    <div class="winner-name">ಮಾಸ್ತಿ ವೆಂಕಟೇಶ ಅಯ್ಯಂಗಾರ್</div>
+                    <div class="winner-year">1983</div>
+                    <div class="winner-bio">ಚಿಕ್ಕವೀರ ರಾಜೇಂದ್ರ ಕೃತಿಗಾಗಿ ಜ್ಞಾನಪೀಠ ಪ್ರಶಸ್ತಿ ಪಡೆದರು</div>
+                    <button class="topic-btn" onclick="showWinnerDetails('masti')">View Details</button>
+                </div>
+            </div>
+            
+            <div class="winner-card">
+                <img src="https://via.placeholder.com/300x200?text=V.+K.+Gokak" alt="V. K. Gokak" class="winner-img">
+                <div class="winner-info">
+                    <div class="winner-name">ವಿ.ಕೃ. ಗೋಕಾಕ್</div>
+                    <div class="winner-year">1990</div>
+                    <div class="winner-bio">ಭಾರತ ಸಿಂಧು ರಶ್ಮಿ ಕೃತಿಗಾಗಿ ಜ್ಞಾನಪೀಠ ಪ್ರಶಸ್ತಿ ಪಡೆದರು</div>
+                    <button class="topic-btn" onclick="showWinnerDetails('gokak')">View Details</button>
+                </div>
+            </div>
+            
+            <div class="winner-card">
+                <img src="https://via.placeholder.com/300x200?text=U.R.+Ananthamurthy" alt="U.R. Ananthamurthy" class="winner-img">
+                <div class="winner-info">
+                    <div class="winner-name">ಯು.ಆರ್. ಅನಂತಮೂರ್ತಿ</div>
+                    <div class="winner-year">1994</div>
+                    <div class="winner-bio">ಸಮಗ್ರ ಸಾಹಿತ್ಯ ಕೊಡುಗೆಗಾಗಿ ಜ್ಞಾನಪೀಠ ಪ್ರಶಸ್ತಿ ಪಡೆದರು</div>
+                    <button class="topic-btn" onclick="showWinnerDetails('ananthamurthy')">View Details</button>
+                </div>
+            </div>
+            
+            <div class="winner-card">
+                <img src="https://via.placeholder.com/300x200?text=Girish+Karnad" alt="Girish Karnad" class="winner-img">
+                <div class="winner-info">
+                    <div class="winner-name">ಗಿರೀಶ್ ಕಾರ್ನಾಡ್</div>
+                    <div class="winner-year">1998</div>
+                    <div class="winner-bio">ಯಕ್ಷಗಾನ ಮತ್ತು ನಾಟಕ ಕ್ಷೇತ್ರದ ಕೊಡುಗೆಗಾಗಿ ಜ್ಞಾನಪೀಠ ಪ್ರಶಸ್ತಿ ಪಡೆದರು</div>
+                    <button class="topic-btn" onclick="showWinnerDetails('karnad')">View Details</button>
+                </div>
+            </div>
+            
+            <div class="winner-card">
+                <img src="https://via.placeholder.com/300x200?text=Chandrashekhara+Kambar" alt="Chandrashekhara Kambar" class="winner-img">
+                <div class="winner-info">
+                    <div class="winner-name">ಚಂದ್ರಶೇಖರ ಕಂಬಾರ</div>
+                    <div class="winner-year">2010</div>
+                    <div class="winner-bio">ಸಮಗ್ರ ಸಾಹಿತ್ಯ ಕೊಡುಗೆಗಾಗಿ ಜ್ಞಾನಪೀಠ ಪ್ರಶಸ್ತಿ ಪಡೆದರು</div>
+                    <button class="topic-btn" onclick="showWinnerDetails('kambar')">View Details</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Winner Details Sections -->
+        <div id="kuvempu-details" class="winner-details">
+            <h3>ಕುವೆಂಪು</h3>
+            <img src="./kuvempu-1.jpg" alt="Kuvempu">
+            <table>
+                <tr>
+                    <td><b>ಜನನ</b></td>
+                    <td>ಡಿಸೆಂಬರ್ ೨೯, ೧೯೦೪<br>ಹಿರೇಕೊಡಿಗೆ, ಕೊಪ್ಪ ತಾಲ್ಲೂಕು, ಚಿಕ್ಕಮಗಳೂರು ಜಿಲ್ಲೆ</td>
+                </tr>
+                <tr>
+                    <td><b>ಕೃತಿ</b></td>
+                    <td>ಶ್ರೀ ರಾಮಾಯಣ ದರ್ಶನಂ-೧೯೬೭</td>
+                </tr>
+                <tr>
+                    <td><b>ವೃತ್ತಿ</b></td>
+                    <td>ಕವಿ, ಲೇಖಕ, ಪ್ರಾಧ್ಯಾಪಕ, ಪ್ರಾಂಶುಪಾಲ, ಕುಲಪತಿ</td>
+                </tr>
+                <tr>
+                    <td><b>ಕಾವ್ಯನಾಮ</b></td>
+                    <td>ಕುವೆಂಪು</td>
+                </tr>
+                <tr>
+                    <td><b>ಪ್ರಮುಖ ಪ್ರಶಸ್ತಿಗಳು</b></td>
+                    <td>ಜ್ಞಾನಪೀಠ ಪ್ರಶಸ್ತಿ, ಪದ್ಮ ವಿಭೂಷಣ ಪ್ರಶಸ್ತಿ, ಕರ್ನಾಟಕ ರತ್ನ ಪ್ರಶಸ್ತಿ, ಪಂಪ ಪ್ರಶಸ್ತಿ</td>
+                </tr>
+                <tr>
+                    <td><b>ಮರಣ</b></td>
+                    <td>ನವೆಂಬರ್ 11, 1994<br>ಮೈಸೂರು, ಕರ್ನಾಟಕ, ಭಾರತ</td>
+                </tr>
+                <tr>
+                    <td><b>ಕೊಡುಗೆ</b></td>
+                    <td>1.ಕುವೆಂಪು ಅವರು ಯುಗಪ್ರವರ್ತಕ ಕವಿ.<br>
+                        2.ಕುವೆಂಪು ಅವರು 'ಶ್ರೀ ರಾಮಾಯಣ ದರ್ಶನಂ' ರಚಿಸುವ ಮೂಲಕ ಆಧುನಿಕ ಕಾಲದಲ್ಲಿ ಮಹಾಕಾವ್ಯ ರಚನೆಗೆ ನಾಂದಿ ಹಾಡಿದರು.<br>
+                        3.ಕುವೆಂಪು ಅವರು ತಮ್ಮ ಮೇರು ಕೃತಿ 'ಶ್ರೀ ರಾಮಾಯಣ ದರ್ಶನಂ'ನಲ್ಲಿ ಹೊಸ ಕಾಲಕ್ಕೆ ಅಗತ್ಯವೆನ್ನಿಸಿದ ದರ್ಶನವನ್ನು ಕಟ್ಟಿಕೊಟ್ಟಿದ್ದಾರೆ.<br>
+                        4.ಕುವೆಂಪು ಅವರು ವಿಶ್ವಮಾನವ ಸಂದೇಶ ನೀಡಿದ್ದಾರೆ.<br>
+                        5.ಕುವೆಂಪು ಅವರು ಮಂತ್ರಮಾಂಗಲ್ಯ ಎಂಬ ಸರಳ ವಿವಾಹ ಪದ್ಧತಿಯನ್ನು ರೂಢಿಗೆ ತಂದರು.<br>
+                        6.ಕುವೆಂಪು ಅವರು ತಮ್ಮ ಕನಸಿನ ಕೂಸಾದ ಮಾನಸ ಗಂಗೋತ್ರಿಯನ್ನು ಕಟ್ಟಿ ಬೆಳೆಸಿದ್ದಾರೆ.<br>
+                        7.ಕುವೆಂಪು ಅವರು ದಲಿತ ಹಾಗೂ ಬಂಡಾಯ ಚಳವಳಿಗಳಿಗೆ ಸ್ಫೂರ್ತಿಯಾಗಿದ್ದಾರೆ.<br>
+                        8.1985ರಲ್ಲಿ ಮೈಸೂರಿನಲ್ಲಿ ನಡೆದ ವಿಶ್ವ ಕನ್ನಡ ಸಮ್ಮೇಳನವನ್ನು ಉದ್ಘಾಟಿಸಿದರು.</td>
+                </tr>
+                <tr>
+                    <td><b>ಗೌರವ/ ಪ್ರಶಸ್ತಿ ಪುರಸ್ಕಾರಗಳು</b></td>
+                    <td>1.ಜ್ಞಾನಪೀಠ ಪ್ರಶಸ್ತಿ (ಶ್ರೀ ರಾಮಾಯಣ ದರ್ಶನಂ) (೧೯೬೮)<br>
+                        2.ಪದ್ಮಭೂಷಣ (೧೯೫೮)<br>
+                        3.ರಾಷ್ಟ್ರಕವಿ ಪುರಸ್ಕಾರ (೧೯೬೪)<br>
+                        4.ಕರ್ನಾಟಕ ವಿಶ್ವವಿದ್ಯಾಲಯದಿಂದ ಗೌರವ ಡಿ.ಲಿಟ್. (೧೯೬೬)<br>
+                        5.ಕೇಂದ್ರ ಸಾಹಿತ್ಯ ಅಕಾಡೆಮಿ ಪ್ರಶಸ್ತಿ - (ಶ್ರೀರಾಮಾಯಣ ದರ್ಶನಂ) (1955)<br>
+                        6.ಪಂಪ ಪ್ರಶಸ್ತಿ (೧೯೮೮)<br>
+                        7.ಕರ್ನಾಟಕ ರತ್ನ (೧೯೯೨)<br>
+                        8.ಬೆಂಗಳೂರು ವಿಶ್ವವಿದ್ಯಾಲಯದಿಂದ ಗೌರವ ಡಿ.ಲಿಟ್. (೧೯೬೯)</td>
+                </tr>
+            </table>
+            <button class="back-btn" onclick="hideWinnerDetails()">Back to Winners</button>
+        </div>
+        
+        <div id="bendre-details" class="winner-details">
+            <h3>ಡಾ. ರ. ಬೇಂದ್ರೆ</h3>
+            <img src="./DR_Bendre.jpg" alt="Dr. R. Bendre">
+            <table>
+                <tr>
+                    <td><b>ಜನನ</b></td>
+                    <td>೧೮೯೬ ಜನವರಿ ೩೧<br>ಧಾರವಾಡ</td>
+                </tr>
+                <tr>
+                    <td><b>ಕೃತಿ</b></td>
+                    <td>ನಾಕುತಂತಿ-೧೯೭೩</td>
+                </tr>
+                <tr>
+                    <td><b>ವೃತ್ತಿ</b></td>
+                    <td>ವರಕವಿ, ಶಿಕ್ಷಕರು</td>
+                </tr>
+                <tr>
+                    <td><b>ಕಾವ್ಯನಾಮ</b></td>
+                    <td>ಅಂಬಿಕಾತನಯದತ್ತ</td>
+                </tr>
+                <tr>
+                    <td><b>ಪ್ರಮುಖ ಪ್ರಶಸ್ತಿಗಳು</b></td>
+                    <td>1.೧೯೪೩ರಲ್ಲಿ ಶಿವಮೊಗ್ಗದಲ್ಲಿ ನಡೆದ ಸಾಹಿತ್ಯ ಸಮ್ಮೇಳನದ ಅಧ್ಯಕ್ಷತೆ.<br>
+                        2.೧೯೫೮ರಲ್ಲಿ 'ಅರಳು ಮರಳು' ಕೃತಿಗೆ ಕೇಂದ್ರ ಸಾಹಿತ್ಯ ಅಕಾಡೆಮಿ ಪ್ರಶಸ್ತಿ<br>
+                        3.೧೯೬೪ರ ಮೈಸೂರು ದಸರಾ ಕಾರ್ಯಕ್ರಮದಲ್ಲಿ ಬೇಂದ್ರೆಯವರಿಗೆ ಸನ್ಮಾನ<br>
+                        4.೧೯೬೫ರಲ್ಲಿ ಮರಾಠಿಯಲ್ಲಿ ರಚಿಸಿದ "ಸಂವಾದ" ಎಂಬ ಕೃತಿಗೆ ಕೇಳ್ಕರ್ ಬಹುಮಾನ<br>
+                        5.೧೯೬೮ರಲ್ಲಿ 'ಪದ್ಮಶ್ರೀ' ಪ್ರಶಸ್ತಿ ಲಭಿಸಿತು<br>
+                        6.೧೯೭೩ರಲ್ಲಿ 'ನಾಕುತಂತಿ' ಕೃತಿಗೆ ಜ್ಞಾನಪೀಠಪ್ರಶಸ್ತಿ<br>
+                        7.ಕಾಶಿ ವಿದ್ಯಾಪೀಠ, ವಾರಣಾಸಿ, ಮೈಸೂರು ಹಾಗೂ ಕರ್ನಾಟಕ ವಿಶ್ವವಿದ್ಯಾನಿಲಯಗಳ ಗೌರವ ಡಾಕ್ಟರೇಟ್<br>
+                        8.ಕೇಂದ್ರ ಸಾಹಿತ್ಯ ಅಕಾಡೆಮಿಯ ಫೆಲೋಷಿಪ್ ಪಡೆದರು.</td>
+                </tr>
+                <tr>
+                    <td><b>ಮರಣ</b></td>
+                    <td>೧೯೮೧ ಅಕ್ಟೋಬರ ೨೬<br>ಮುಂಬಯಿ</td>
+                </tr>
+                <tr>
+                    <td><b></b></td>
+                    <td>ದತ್ತಾತ್ರೇಯ ರಾಮಚಂದ್ರ ಬೇಂದ್ರೆ ಕನ್ನಡದ ಪ್ರಸಿದ್ಧ ಕವಿ ಹಾಗೂ ಕಾದಂಬರಿಕಾರರು. ಬೇಂದ್ರೆಯವರು ಕರ್ನಾಟಕದಲ್ಲಿ ವರಕವಿಯಂದು ಪ್ರಸಿದ್ಧರಾಗಿದ್ದಾರೆ. ೧೯೭೩ರಲ್ಲಿ, ಬೇಂದ್ರೆಯವರ ಕವನ ಸಂಕಲನವಾದ ನಾಕುತಂತಿಗಾಗಿ ಭಾರತದ ಅತ್ಯುನ್ನತ ಸಾಹಿತ್ಯ ಪ್ರಶಸ್ತಿಯಾದ ಜ್ಞಾನಪೀಠವನ್ನು ನೀಡಲಾಯಿತು ಹಾಗೂ ಬೇಂದ್ರೆಯವರು ಭಾರತ ಸರ್ಕಾರದ ಪದ್ಮಶ್ರೀ ಪ್ರಶಸ್ತಿಗೆ ಭಾಜನರಾಗಿದ್ದಾರೆ</td>
+                </tr>
+                <tr>
+                    <td><b>ವಿಷಯ</b></td>
+                    <td>ಕರ್ನಾಟಕ, ಜನಪದ, ಶ್ರಾವಣ, ಜೀವನ, ಧಾರವಾಡ</td>
+                </tr>
+            </table>
+            <button class="back-btn" onclick="hideWinnerDetails()">Back to Winners</button>
+        </div>
+        
+        <div id="karanth-details" class="winner-details">
+            <h3>ಶಿವರಾಮ ಕಾರಂತ</h3>
+            <img src="./shivarama-karanth.jpg" alt="Shivaram Karanth">
+            <table>
+                <tr>
+                    <td><b>ಜನನ</b></td>
+                    <td>ಅಕ್ಟೋಬರ್ ೧೦, ೧೯೦೨*<br>ಸಾಲಿಗ್ರಾಮ, ಉಡುಪಿ ಜಿಲ್ಲೆ</td>
+                </tr>
+                <tr>
+                    <td><b>ಕೃತಿ</b></td>
+                    <td>ಮೂಕಜ್ಜಿಯ ಕನಸುಗಳು-೧೯೭೭</td>
+                </tr>
+                <tr>
+                    <td><b>ವೃತ್ತಿ</b></td>
+                    <td>ಲೇಖಕ</td>
+                </tr>
+                <tr>
+                    <td><b>ಪ್ರಮುಖ ಪ್ರಶಸ್ತಿಗಳು</b></td>
+                    <td>1.ಜ್ಞಾನಪೀಠ ಪ್ರಶಸ್ತಿ<br>
+                        2.ಪದ್ಮಭೂಷಣ ಪ್ರಶಸ್ತಿ<br>
+                        3.ವಿವಿಧ ವಿಶ್ವವಿದ್ಯಾನಿಲಯಗಳಿಂದ ಡಾಕ್ಟರೇಟ್<br>
+                        4.ರಾವ್ ಬಹದೂರ್ ಪ್ರಶಸ್ತಿ (೧೯೩೦ ರಲ್ಲಿ)<br>
+                        5.ಕೇಂದ್ರ ಸಾಹಿತ್ಯ ಅಕಾಡೆಮಿ ಪ್ರಶಸ್ತಿ<br>
+                        6.ಪಂಪ ಪ್ರಶಸ್ತಿ</td>
+                </tr>
+                <tr>
+                    <td><b>ಮರಣ</b></td>
+                    <td>ಡಿಸೆಂಬರ್ ೯,೧೯೯೭<br>ಮಣಿಪಾಲ, ಉಡುಪಿ</td>
+                </tr>
+                <tr>
+                    <td><b>ಪ್ರಕಾರ/ಶೈಲಿ</b></td>
+                    <td>ಕಥೆ, ಕವನ, ಕಾದಂಬರಿ, ನಾಟಕ, ಯಕ್ಷಗಾನ</td>
+                </tr>
+                <tr>
+                    <td><b></b></td>
+                    <td>ಕೋಟಾ ಶಿವರಾಮ ಕಾರಂತ (ಅಕ್ಟೋಬರ್ ೧೦, ೧೯೦೨-ಸೆಪ್ಟೆಂಬರ್ ೧೨, ೧೯೯೭)- "ಕಡಲತೀರದ ಭಾರ್ಗವ", "ನಡೆದಾಡುವ ವಿಶ್ವಕೋಶ" ಎಂದೇ ಖ್ಯಾತರಾಗಿದ್ದ ಕನ್ನಡ ಸಾಹಿತ್ಯ-ಸಂಸ್ಕೃತಿಯ ವಕ್ತಾರ, ಕವಿ, ಕಾದಂಬರಿಕಾರ, ನಾಟಕಕಾರ, ಅನುವಾದಕ, ವೈಜ್ಞಾನಿಕ ಬರಹಗಾರ. ಆಡುಮುಟ್ಟದ ಸೊಪ್ಪಿಲ್ಲ. ಹಾಗೆಯೇ ಕಾರಂತರು ಬರೆಯದ ಸಾಹಿತ್ಯ ಪ್ರಕಾರವೇ ಇಲ್ಲವೆನ್ನಲಾಗಿದೆ. ವಿಶ್ವ ವಿದ್ಯಾನಿಲಯಗಳಲ್ಲಿ ಪದವಿ, ಸ್ನಾತಕೋತ್ತರ ಪದವಿ ಪಡೆದಿಲ್ಲದಿದ್ದರೂ, ಅವರ ಸಾಹಿತ್ಯ ಪರಿಶ್ರಮ ಅಪಾರವಾದುದು. ಜ್ಞಾನಪೀಠ, ಪದ್ಮಭೂಷಣ, ಪಂಪ ಪ್ರಶಸ್ತಿ, ನಾಡೋಜ ಪುರಸ್ಕಾರ, ಎಂಟು ವಿಶ್ವವಿದ್ಯಾಲಯಗಳು ಗೌರವ ಡಾಕ್ಟರೇಟ್‌ಗಳನ್ನಿತ್ತು ಪುರಸ್ಕರಿಸಿವೆ.</td>
+                </tr>
+            </table>
+            <button class="back-btn" onclick="hideWinnerDetails()">Back to Winners</button>
+        </div>
+        
+        <div id="masti-details" class="winner-details">
+            <h3>ಮಾಸ್ತಿ ವೆಂಕಟೇಶ ಅಯ್ಯಂಗಾರ್</h3>
+            <img src="./masthi-venkatesh-iyyenger.jpg" alt="Masti Venkatesha Iyengar">
+            <table>
+                <tr>
+                    <td><b>ಜನನ</b></td>
+                    <td>೬ ಜೂನ್ ೧೮೯೧<br>ಹೊಂಗೆನಹಳ್ಳಿ, ಮಾಲೂರು, ಕೋಲಾರ, ಮೈಸೂರು ರಾಜ್ಯ, ಬ್ರಿಟಿಷ್ ಇಂಡಿಯಾ. (ಈಗಿನ ಕರ್ನಾಟಕ, ಭಾರತ)</td>
+                </tr>
+                <tr>
+                    <td><b>ಕೃತಿ</b></td>
+                    <td>ಕನ್ನಡ ಸಾಹಿತ್ಯಕ್ಕೆ ಸಮಗ್ರ ಕೊಡುಗೆ. ವಿಶೇಷ ಉಲ್ಲೇಖ:- ಚಿಕ್ಕವೀರ ರಾಜೇಂದ್ರ (ಗ್ರಂಥ)-೧೯೮೩</td>
+                </tr>
+                <tr>
+                    <td><b>ವೃತ್ತಿ</b></td>
+                    <td>ಜಿಲ್ಲಾಧಿಕಾರಿ, ಪ್ರೊಫೆಸರ್, ಲೇಖಕ</td>
+                </tr>
+                <tr>
+                    <td><b>ಪ್ರಕಾರ/ಶೈಲಿ</b></td>
+                    <td>ಕಾದಂಬರಿ</td>
+                </tr>
+                <tr>
+                    <td><b>ಪ್ರಮುಖ ಪ್ರಶಸ್ತಿಗಳು</b></td>
+                    <td>1.ಜ್ಞಾನಪೀಠ ಪ್ರಶಸ್ತಿ (೧೯೮೩) (ಚಿಕವೀರ ರಾಜೇಂದ್ರ ಕೃತಿಗೆ)<br>
+                        2.ಮೈಸೂರು ವಿಶ್ವವಿದ್ಯಾಲಯದ ಡಿ. ಲಿಟ್(೧೯೭೭)<br>
+                        3.ಕರ್ನಾಟಕ ವಿಶ್ವವಿದ್ಯಾಲಯದ ಡಿ. ಲಿಟ್(೧೯೫೬)<br>
+                        4.ಕೇಂದ್ರ ಸಾಹಿತ್ಯ ಅಕಾಡೆಮಿ ಪ್ರಶಸ್ತಿ(೧೯೬೮)<br>
+                        5.ಕನ್ನಡ ಸಾಹಿತ್ಯ ಪರಿಷತ್ತಿನ ಅಧ್ಯಕ್ಷ ಪದವಿ(೧೯೫೩)<br>
+                        6.ದಕ್ಷಿಣ ಭಾರತ ಸಾಹಿತ್ಯಗಳ ಸಮ್ಮೇಳನ ಅಧ್ಯಕ್ಷ ಪದವಿ(೧೯೪೬)</td>
+                </tr>
+                <tr>
+                    <td><b>ಮರಣ</b></td>
+                    <td>೬ ಜೂನ್ ೧೯೮೬<br>ಬೆಂಗಳೂರು, ಕರ್ನಾಟಕ, ಭಾರತ</td>
+                </tr>
+                <tr>
+                    <td><b>ಗೌರವಗಳು</b></td>
+                    <td>1.ಮಾಸ್ತಿ ಅವರಿಗೆ ಸಂದ ಗೌರವ, ಪ್ರಶಸ್ತಿಗಳು ಅಪಾರ. "ಮಾಸ್ತಿ ಕನ್ನಡದ ಆಸ್ತಿ" ಎಂಬ ಹೇಳಿಕೆ ಒಂದು ನಾಣ್ಣುಡಿಯಾಗಿದೆ.<br>
+                        2.ಎಲ್ಲ ಸಾಹಿತಿಗಳಿಗೂ ಅವರು "ಅಣ್ಣ ಮಾಸ್ತಿ"ಯಾಗಿದ್ದರು. ವರಕವಿ ದ ರಾ ಬೇಂದ್ರೆ ಮಾಸ್ತಿಯವರನ್ನು ಹಿರಿಯಣ್ಣ ಎಂದು ಗೌರವಿಸಿದ್ದರು.<br>
+                        3.ಕನ್ನಡ ಸಾಹಿತ್ಯ ಪರಿಷತ್ತಿನ ಅಧ್ಯಕ್ಷರಾಗಿ ಮಾಸ್ತಿ ಸೇವೆ ಸಲ್ಲಿಸಿದರು.<br>
+                        4.೧೯೨೯ರಲ್ಲಿ ಬೆಳಗಾವಿಯಲ್ಲಿ ನಡೆದ ಕನ್ನಡ ಸಾಹಿತ್ಯ ಸಮ್ಮೇಳನದ ಅಧ್ಯಕ್ಷರಾಗಿದ್ದರು.<br>
+                        5.ಕರ್ನಾಟಕ ವಿಶ್ವವಿದ್ಯಾಲಯ ಅವರಿಗೆ ಗೌರವ ಡಾಕ್ಟರೇಟ್ ಪದವಿ ನೀಡಿ ಗೌರವಿಸಿತು.<br>
+                        6.ಮೈಸೂರು ಮಹಾರಾಜರು "ರಾಜಸೇವಾ ಪ್ರಸಕ್ತ" ಎಂದು ಗೌರವಿಸಿದ್ದರು.<br>
+                        7.೧೯೭೨ರಲ್ಲಿ " ಶ್ರೀನಿವಾಸ " ಎಂಬ ಅವರ ಅಭಿನಂದನಾ ಗ್ರಂಥ ಪ್ರಕಟವಾಯಿತು</td>
+                </tr>
+                <tr>
+                    <td><b></b></td>
+                    <td>ಮಾಸ್ತಿ ವೆಂಕಟೇಶ ಅಯ್ಯಂಗಾರರು (ಜೂನ್ ೬ ೧೮೯೧ - ಜೂನ್ ೬ ೧೯೮೬)-ಕನ್ನಡದ ಒಬ್ಬ ಅಪ್ರತಿಮ ಲೇಖಕರು. ಕನ್ನಡ ಸಾಹಿತ್ಯ ಲೋಕದಲ್ಲಿ ಮಾಸ್ತಿ ಎಂದೇ ಖ್ಯಾತರಾಗಿರುವರು. ಭಾರತದಲ್ಲಿ ನೀಡಲಾಗುವ ಅತ್ಯುನ್ನತ ಸಾಹಿತ್ಯಿಕ ಗೌರವವಾದ ಜ್ಞಾನಪೀಠ ಪ್ರಶಸ್ತಿಯನ್ನು ನೀಡಿ ಗೌರವಿಸಲ್ಪಟ್ಟ ಕನ್ನಡ ಲೇಖಕರಲ್ಲಿ ಇವರು ನಾಲ್ಕನೆಯವರಾಗಿದ್ದರು. ಇವರನ್ನು ಜನಪ್ರಿಯವಾಗಿ ಮಾಸ್ತಿ ಕನ್ನಡದ ಆಸ್ತಿ ಎಂದು ಕರೆಯಲಾಗುತ್ತಿತ್ತು ಅಂದರೆ "ಮಾಸ್ತಿ ಕನ್ನಡದ ಸಂಪತ್ತು" ಎಂದರ್ಥ. ಇವರು ಶ್ರೀನಿವಾಸ್ ಎಂಬ ಕಾವ್ಯನಾಮದಡಿಯಲ್ಲಿ ಬರೆಯುತ್ತಿದ್ದರು. ಇವರನ್ನು ಸಣ್ಣ ಕಥೆಗಳ ಜನಕ ಎಂದು ಕರೆಯುತ್ತಾರೆ. ಅಂದಿನ ಮೈಸೂರು ಮಹಾರಾಜರಾದ ನಾಲ್ವಡಿ ಕೃಷ್ಣರಾಜ ಒಡೆಯರ್ ಅವರಿಗೆ ರಾಜಸೇವಾಸಕ್ತ ಎಂಬ ಬಿರುದು ನೀಡಿ ಗೌರವಿಸಿದ್ದರು</td>
+                </tr>
+            </table>
+            <button class="back-btn" onclick="hideWinnerDetails()">Back to Winners</button>
+        </div>
+        
+        <div id="gokak-details" class="winner-details">
+            <h3>ವಿ.ಕೃ. ಗೋಕಾಕ್</h3>
+            <img src="./vk-gokak.jpg" alt="V.K. Gokak">
+            <table>
+                <tr>
+                    <td><b>ಜನನ</b></td>
+                    <td>೧೯೦೯ ಆಗಸ್ಟ್ ೯<br>ಸವಣೂರು, ಹಾವೇರಿ ಜಿಲ್ಲೆ, ಕರ್ನಾಟಕ</td>
+                </tr>
+                <tr>
+                    <td><b>ಕೃತಿ</b></td>
+                    <td>ಕನ್ನಡ ಸಾಹಿತ್ಯಕ್ಕೆ ಸಮಗ್ರ ಕೊಡುಗೆ. ವಿಶೇಷ ಉಲ್ಲೇಖ ಭಾರತ ಸಿಂಧುರಶ್ಮಿ-೧೯೯೦</td>
+                </tr>
+                <tr>
+                    <td><b>ವೃತ್ತಿ</b></td>
+                    <td>ಪ್ರಾಧ್ಯಾಪಕ, ಸಾಹಿತಿ</td>
+                </tr>
+                <tr>
+                    <td><b>ಮರಣ</b></td>
+                    <td>೧೯೯೨ ಏಪ್ರಿಲ್ ೨೮<br>ಹಾಸನ, ಕರ್ನಾಟಕ</td>
+                </tr>
+                <tr>
+                    <td><b>ಗೌರವಗಳು, ಪ್ರಶಸ್ತಿಗಳು ಹಾಗೂ ಬಿರುದುಗಳು</b></td>
+                    <td>1.ಗೋಕಾಕರು ಸಾಹಿತ್ಯ-ಸಂಸ್ಕೃತಿಗೆ ಸಲ್ಲಿಸಿದ ಸೇವೆಯನ್ನು ಗಮನಿಸಿ ಜನತೆಯೂ, ಸರ್ಕಾರವೂ ಅವರಿಗೆ ಪ್ರಶಸ್ತಿ ಗೌರವಗಳನ್ನು ನೀಡಿ ಸನ್ಮಾನಿಸಿವೆ. ಬಳ್ಳಾರಿಯಲ್ಲಿ ೧೯೫೮ರಲ್ಲಿ ನಡೆದ ಕನ್ನಡ ಸಾಹಿತ್ಯ ಸಮ್ಮೇಳನದ ಅಧ್ಯಕ್ಷತೆಯನ್ನು ಅವರು ವಹಿಸಿದ್ದರು.<br>
+                        2.೧೯೬೭ರಲ್ಲಿ ಕರ್ನಾಟಕ ವಿಶ್ವವಿದ್ಯಾಲಯ ಮತ್ತು ೧೯೭೯ರಲ್ಲಿ ಕ್ಯಾಲಿಫೋರ್ನಿಯಾದ ಫೆಸಿಫಿಕ್ 3.ವಿಶ್ವವಿದ್ಯಾಲಯಗಳು ಅವರಿಗೆ ಗೌರವ ಡಾಕ್ಟರೇಟ್ ನೀಡಿ ಗೌರವಿಸಿವೆ.<br>
+                        4.ಕೇಂದ್ರ ಸರ್ಕಾರ ೧೯೬೧ರಲ್ಲಿ ಪದ್ಮಶ್ರೀ ಪ್ರಶಸ್ತಿ ನೀಡಿದೆ.<br>
+                        5.ಹಂಪಿ ವಿಶ್ವವಿದ್ಯಾನಿಲಯದಿಂದ ಗೌರವ ಡಿ.ಲಿಟ್ ಪದವಿ೧೯೬೫.<br>
+                        6.ಕೇಂದ್ರ ಸಾಹಿತ್ಯ ಅಕಾಡೆಮಿಯ ಅಧ್ಯಕ್ಷ ಪದವಿ ಮತ್ತು ಜ್ಞಾನಪೀಠ ಪ್ರಶಸ್ತಿ ಆಯ್ಕೆ ಸಮಿತಿಯ ಅಧ್ಯಕ್ಷ ಪದವಿ ಇವೆರಡೂ ಕನ್ನಡಿಗರೊಬ್ಬರಿಗೆ ಮೊದಲ ಬಾರಿಗೆ ಸಂದ ಗೌರವಗಳಾಗಿವೆ.<br>
+                        7.ಅವರ ಮೇರು ಕೃತಿ "ಭಾರತ ಸಿಂಧು ರಶ್ಮಿ"ಗೆ ಕರ್ನಾಟಕ ಸಾಹಿತ್ಯ ಅಕಾಡೆಮಿ ಪ್ರಶಸ್ತಿ, ಭಾರತೀಯ ವಿದ್ಯಾಭವನದ ರಾಜಾಜಿ ಪ್ರಶಸ್ತಿ ಮತ್ತು ಐ.ಬಿ.ಎಚ್. ಪ್ರಶಸ್ತಿಗಳೂ ದೊರಕಿವೆ.<br>
+                        8.ಗೋಕಾಕರ "ದ್ಯಾವಾ ಪೃಥಿವೀ" ಕವನ ಸಂಕಲನಕ್ಕೆ ೧೯೬೦ರಲ್ಲಿ ಕೇಂದ್ರ ಸಾಹಿತ್ಯ ಅಕಾಡೆಮಿ ಪ್ರಶಸ್ತಿಯೂ ಬಂದಿತು.<br>
+                        9.ಗೋಕಾಕರಿಗೆ ಜ್ಞಾನಪೀಠ ಪ್ರಶಸ್ತಿಯನ್ನು ನೀಡುವಾಗ ಪ್ರಶಸ್ತಿ ಆಯ್ಕೆ ಸಮಿತಿ ಅವರ ಯಾವುದೇ ಕೃತಿಯನ್ನು ಹೆಸರಿಸಲಿಲ್ಲ. ಕನ್ನಡ ಸಾಹಿತ್ಯ ಲೋಕಕ್ಕೆ ಅವರು ೧೯೬೯ರಿಂದ ೧೯೮೪ರ ಅವಧಿಯಲ್ಲಿ ನೀಡಿದ ಅನುಪಮ ಕೊಡುಗೆಯನ್ನು ಗಮನಿಸಿ ಈ ಪ್ರಶಸ್ತಿಯನ್ನು ನೀಡಲಾಗಿದೆ ಎಂದು ಹೇಳಿದೆ.<br>
+                        10.ಯಾವುದೇ ಕೃತಿಯನ್ನು ಹೆಸರಿಸದೆ ಜ್ಞಾನಪೀಠ ಪ್ರಶಸ್ತಿ ಕೊಟ್ಟಿದ್ದು ಇದೇ ಮೊದಲು. ಆದರೆ ಬಹಳ ಜನರು ಗೋಕಾಕರಿಗೆ ಅವರ ಮೇರು ಕೃತಿ "ಭಾರತ ಸಿಂಧು ರಶ್ಮಿ"ಗಾಗಿಯೇ ಈ ಪ್ರಶಸ್ತಿ ಬಂದಿದೆ ಎಂದು ಭಾವಿಸಿದ್ದಾರೆ.<br>
+                        11.ಸಾಮಾನ್ಯವಾಗಿ ಜ್ಞಾನಪೀಠ ಪ್ರಶಸ್ತಿಯನ್ನು ದೆಹಲಿಯಲ್ಲಿ ನೀಡಲಾಗುತ್ತದೆ. ಆದರೆ ಗೋಕಾಕರಿಗೆ ಪ್ರಶಸ್ತಿಯನ್ನು ನೀಡಲು ಸ್ವತಃ ಈ ದೇಶದ ಪ್ರಧಾನಿ ಮಂತ್ರಿಗಳೇ ಮುಂಬಯಿಗೆ ಆಗಮಿಸಿದರು. ಇದು ಗೋಕಾಕರು ಎಷ್ಟು ಮಹತ್ವದ ವ್ಯಕ್ತಿ ಎಂಬುದಕ್ಕೆ ಒಂದು ನಿದರ್ಶನ.</td>
+                </tr>
+                <tr>
+                    <td><b></b></td>
+                    <td>ಕನ್ನಡಕ್ಕೆ ಐದನೆಯ ಜ್ಞಾನಪೀಠ ಪ್ರಶಸ್ತಿಯನ್ನು ೧೯೯೧ರಲ್ಲಿ ತಂದುಕೊಟ್ಟ [೧] ವಿನಾಯಕ ಕೃಷ್ಣ ಗೋಕಾಕರು ಹಲವು ರೀತಿಯಲ್ಲಿ ಅದೃಷ್ಠವಂತರು. ಅವರು ಕನ್ನಡದ ಪ್ರತಿಭಾವಂತ ಕವಿ, ಪಂಡಿತರಾಗಿದ್ದರು. ಕನ್ನಡ-ಇಂಗ್ಲೀಷ್ ಭಾಷೆಗಳಲ್ಲಿ ಸಮಾನ ಪ್ರಭುತ್ವ ಪಡೆದಿದ್ದ ಅವರು ತಮ್ಮ ಜೀವಿತ ಕಾಲದಲ್ಲೇ ಒಬ್ಬ ಪ್ರತಿಭಾವಂತ ಸಾಹಿತಿಗೆ ದೊರಕಬೇಕಾದ ಎಲ್ಲ ಸಿದ್ಧಿ, ಪ್ರಸಿದ್ಧಿಗಳನ್ನು ಪಡೆದರು. ಗೋಕಾಕರು ಇದಕ್ಕೂ ಮೊದಲು ಭಾರತೀಯ ಜ್ಞಾನಪೀಠ ಪ್ರಶಸ್ತಿ ಆಯ್ಕೆ ಸಮಿತಿಯ ಅಧ್ಯಕ್ಷರಾಗಿದ್ದರು.</td>
+                </tr>
+            </table>
+            <button class="back-btn" onclick="hideWinnerDetails()">Back to Winners</button>
+        </div>
+        
+        <div id="ananthamurthy-details" class="winner-details">
+            <h3>ಯು.ಆರ್. ಅನಂತಮೂರ್ತಿ</h3>
+            <img src="./ura.jpg" alt="U.R. Ananthamurthy">
+            <table>
+                <tr>
+                    <td><b>ಜನನ</b></td>
+                    <td>೨೧ ಡಿಸೆಂಬರ್ ೧೯೩೨<br>ಮೇಳಿಗೆ, ತೀರ್ಥಹಳ್ಳಿ ತಾಲ್ಲೂಕು, ಶಿವಮೊಗ್ಗ ಜಿಲ್ಲೆ, ಮೈಸೂರು ಸಂಸ್ಥಾನ, ಭಾರತ</td>
+                </tr>
+                <tr>
+                    <td><b>ಕೃತಿ</b></td>
+                    <td>ಸಮಗ್ರ ಸಾಹಿತ್ಯಕ್ಕೆ ಕೊಡುಗೆ-೧೯೯೪</td>
+                </tr>
+                <tr>
+                    <td><b>ವೃತ್ತಿ</b></td>
+                    <td>ಪ್ರಾಧ್ಯಾಪಕರು, ಕನ್ನಡದ ಪ್ರಸಿದ್ಧ ಸಾಹಿತಿ</td>
+                </tr>
+                <tr>
+                    <td><b>ಪ್ರಕಾರ/ಶೈಲಿ</b></td>
+                    <td>ಕವಿತೆ, ಕತೆ, ಕಾದಂಬರಿ, ಪ್ರಬಂಧ, ಸಾಹಿತ್ಯವಿಮರ್ಶೆ, ನಾಟಕ</td>
+                </tr>
+                <tr>
+                    <td><b>ಪ್ರಶಸ್ತಿ ಮತ್ತು ಪುರಸ್ಕಾರಗಳು</b></td>
+                    <td>1.ಕೃಷ್ಣರಾವ್ ಚಿನ್ನದ ಪದಕ (೧೯೫೮)<br>
+                        2.ಸಂಸ್ಕಾರ, ಘಟಶ್ರಾದ್ಧ ಮತ್ತು ಬರ ಚಿತ್ರಗಳಿಗೆ ಅತ್ಯುತ್ತಮ ಕತೆಗಾಗಿ ಪ್ರಶಸ್ತಿ (ಕ್ರಮವಾಗಿ ೧೯೭೦, ೧೯೭೮, ೧೯೮೯)<br>
+                        3.ಕರ್ನಾಟಕ ಸಾಹಿತ್ಯ ಅಕಾಡೆಮಿ ಪ್ರಶಸ್ತಿ (೧೯೮೩)<br>
+                        4.ಕರ್ನಾಟಕ ರಾಜ್ಯೋತ್ಸವ ಪ್ರಶಸ್ತಿ (೧೯೮೪)[೬]<br>
+                        5.ಕೇಂದ್ರ ಸಾಹಿತ್ಯ ಅಕಾಡೆಮಿ ಪ್ರಶಸ್ತಿ<br>
+                        6.ಮಾಸ್ತಿ ಪ್ರಶಸ್ತಿ (೧೯೯೪)<br>
+                        7.ಜ್ಞಾನಪೀಠ ಪ್ರಶಸ್ತಿ (೧೯೯೪)<br>
+                        8.ಬಷೀರ್ ಪುರಸ್ಕಾರ, ಕೇರಳ ಸರ್ಕಾರ (೨೦೧೨)<br>
+                        9.ರವೀಂದ್ರ ಟ್ಯಾಗೋರ್ ಸ್ಮಾರಕ ಪದಕ (೨೦೧೨)<br>
+                        10.ಗಣಕ ಸೃಷ್ಟಿ ಪ್ರಶಸ್ತಿ, ಕೋಲ್ಕತ (೨೦೦೨)<br>
+                        11.ಪದ್ಮಭೂಷಣ (೧೯೯೮)<br>
+                        12.ಶಿಖರ್ ಸಮ್ಮಾನ್ (ಹಿಮಾಚಲ ಪ್ರದೇಶ ಸರ್ಕಾರ) (೧೯೯೫)<br>
+                        13.೬೯ನೇ ಅಖಿಲ ಭಾರತ ಕನ್ನಡ ಸಾಹಿತ್ಯ ಸಮ್ಮೇಳನದ ಅಧ್ಯಕ್ಷ (ತುಮಕೂರು)</td>
+                </tr>
+                <tr>
+                    <td><b>ಮರಣ</b></td>
+                    <td>22 August 2014 (aged 81)<br>ಬೆಂಗಳೂರು, ಕರ್ನಾಟಕ, ಭಾರತ</td>
+                </tr>
+                <tr>
+                    <td><b></b></td>
+                    <td>ಡಾ. ಉಡುಪಿ ರಾಜಗೋಪಾಲಾಚಾರ್ಯ ಅನಂತಮೂರ್ತಿ ಕನ್ನಡದ ಪ್ರಮುಖ ಸಾಹಿತಿಗಳಲ್ಲೊಬ್ಬರು. ಅವರು ಚಿಂತಕರೂ ವಿಮರ್ಶಕರೂ ಆಗಿ ಪ್ರಸಿದ್ಧರಾಗಿದ್ದವರು. ಇಂಗ್ಲೀಷ್ ಪ್ರಾಧ್ಯಾಪಕರಾಗಿ ವೃತ್ತಿಜೀವನ ಪ್ರಾರಂಭಿಸಿದ ಅವರು ಅನಂತರ ಶಿಕ್ಷಣ ಸೇರಿದಂತೆ ಮುಂತಾದ ಕ್ಷೇತ್ರಗಳಲ್ಲಿ ಅನೇಕ ಮುಖ್ಯ ಹುದ್ದೆಗಳನ್ನು ನಿರ್ವಹಿಸಿದರು. ಅವರು ತೀರ್ಥಹಳ್ಳಿ ತಾಲ್ಲೂಕಿನಲ್ಲಿ ಜನಿಸಿದರು ಮತ್ತು ನವ ಚಳುವಳಿಯ ಪ್ರವರ್ತಕರಲ್ಲಿ ಒಬ್ಬರೆಂದು ಪರಿಗಣಿಸಲಾಗಿದೆ. ಇವರ ಸಮಗ್ರ ಸಾಹಿತ್ಯಕ್ಕಾಗಿ ೧೯೯೪ರಲ್ಲಿ ಜ್ಞಾನಪೀಠ ಪ್ರಶಸ್ತಿ ಪಡೆದರು[೧] ,ಕನ್ನಡ ಭಾಷೆಗೆ ಜ್ಞಾನಪೀಠ ಪ್ರಶಸ್ತಿಯನ್ನು ನೀಡಿರುವ ಆರನೇ ಬರಹಗಾರರಾಗಿದ್ದಾರೆ. ಈ ಪ್ರಶಸ್ತಿಯು ಭಾರತದಲ್ಲಿ ನೀಡಲ್ಪಟ್ಟ ಅತ್ಯುನ್ನತ ಗೌರವವಾಗಿದೆ. ೧೯೯೮ ರಲ್ಲಿ ಇವರು ಭಾರತ ಸರ್ಕಾರದಿಂದ ಪದ್ಮಭೂಷಣ ಪ್ರಶಸ್ತಿಯನ್ನು ಪಡೆದರು. ೧೯೮೦ ರ ದಶಕದ ಅಂತ್ಯದಲ್ಲಿ ಕೇರಳದ ಮಹಾತ್ಮ ಗಾಂಧಿ ವಿಶ್ವವಿದ್ಯಾಲಯದ ಉಪಕುಲಪತಿಯಾಗಿದ್ದರು. ಅವರು ೨೦೧೩ ರ ಮ್ಯಾನ್ ಬುಕರ್ ಅಂತರರಾಷ್ಟ್ರೀಯ ಪ್ರಶಸ್ತಿಯ ಅಂತಿಮ ಸ್ಪರ್ಧಿಗಳಲ್ಲಿ ಒಬ್ಬರಾಗಿದ್ದರು.</td>
+                </tr>
+            </table>
+            <button class="back-btn" onclick="hideWinnerDetails()">Back to Winners</button>
+        </div>
+        
+        <div id="karnad-details" class="winner-details">
+            <h3>ಗಿರೀಶ್ ಕಾರ್ನಾಡ್</h3>
+            <img src="./GirishKarnad-1.jpg" alt="Girish Karnad">
+            <table>
+                <tr>
+                    <td><b>ಜನನ</b></td>
+                    <td>5/9/1938<br>ಮಾಥೆರಾನ್, ಸಬರಕಾಂತ, ಮಹಾರಾಷ್ಟ್ರ</td>
+                </tr>
+                <tr>
+                    <td><b>ಕೃತಿ</b></td>
+                    <td>ಕನ್ನಡ ಸಾಹಿತ್ಯಕ್ಕೆ ಸಮಗ್ರ ಕೊಡುಗೆ. ನಾಟಕಗಳು ಯಶಸ್ವಿ-೧೯೯೮</td>
+                </tr>
+                <tr>
+                    <td><b>ವೃತ್ತಿ</b></td>
+                    <td>ನಾಟಕಕಾರ, ನಟ, ನಿರ್ದೇಶಕ</td>
+                </tr>
+                <tr>
+                    <td><b>ಪ್ರಮುಖ ಪ್ರಶಸ್ತಿಗಳು</b></td>
+                    <td>1.ಸಿನಿಮಾ ಸೇವೆ ಪರಿಗಣಿಸಿ ಗೌರವ ಡಾಕ್ಟರೇಟ್<br>
+                        2.ಕರ್ನಾಟಕ ರಾಜ್ಯೋತ್ಸವ ಪ್ರಶಸ್ತಿ,<br>
+                        3.ಗುಬ್ಬಿ ವೀರಣ್ಣ ಪ್ರಶಸ್ತಿ,<br>
+                        4.ಕೇಂದ್ರ ಸಂಗೀತ ನಾಟಕ ಅಕಾಡೆಮಿ ಪ್ರಶಸ್ತಿ,<br>
+                        5.ಪದ್ಮಶ್ರೀ -೧೯೭೪<br>
+                        6.ಪದ್ಮಭೂಷಣ -೧೯೯೨<br>
+                        7.ಜ್ಞಾನಪೀಠ -೧೯೯೮<br>
+                        8.ಕಾಳಿದಾಸ ಸಮ್ಮಾನ್ - ೧೯೯೮<br>
+                        9.ಕಾರ್ನಾಡ್ ಕೇಂದ್ರ ಸಂಗೀತ-ನಾಟಕ ಅಕಾಡೆಮಿಯ ಅಧ್ಯಕ್ಷರಾಗಿ ೧೯೮೮-೯೩ ಕಾರ್ಯನಿರ್ವಹಿಸಿದ್ದಾರೆ.<br>
+                        10.ಇಂಗ್ಲೆಂಡ್‌ನಲ್ಲಿ ನೆಹರು ಸೆಂಟರ್‌ನ ನಿರ್ದೇಶಕರಾಗಿ ಕಾರ್ಯನಿರ್ವಹಿಸಿದ್ದಾರೆ.<br>
+                        11.ಪುಟ್ಟಣ್ಣ ಕಣಗಾಲ್ ಪ್ರಶಸ್ತಿ: ೨೦೦೮ -೦೯ ರ ಸಾಲಿನ ಕರ್ನಾಟಕ ರಾಜ್ಯ ಚಲನಚಿತ್ರ ಪ್ರಶಸ್ತಿ ಮಂಡಳಿ ಘೋಷಿಸಿದ್ದ ಪುಟ್ಟಣ್ಣ ಕಣಗಾಲ್ ಪ್ರಶಸ್ತಿಯನ್ನು ಪ್ರಶಸ್ತಿಯನ್ನು ಗಿರೀಶ್ ಕಾರ್ನಾಡ್ ನಿರಾಕರಿಸಿದ್ದಾರೆ . ಜೀವಮಾನದ ಸಾಧನೆಗಾಗಿ ಕೆ.ಎಸ್.ಆರ್.ದಾಸ್ ಅವರಿಗೆ ನೀಡಲಾಗಿದ್ದ ಪುಟ್ಟಣ್ಣ ಕಣಗಾಲ್ ಪ್ರಶಸ್ತಿಯನ್ನು ಕೆಲ ಕ್ಷಣಗಳಲ್ಲಿಯೇ ಹಿಂದಕ್ಕೆ ಪಡೆದು ಅದನ್ನು ಗಿರೀಶ್ ಕಾರ್ನಾಡ್ ಅವರಿಗೆ ನೀಡಲಾಗಿತ್ತು.(ದಾಸ್ ಅವರಿಗೆ ಪ್ರಶಸ್ತಿ ನೀಡಿದ್ದನ್ನು ಘೋಷಿಸಿದ ಕೂಡಲೆ "ಕೆ.ಎಸ್.ಆರ್.ದಾಸ್" ಅವರು ಕನ್ನಡ ಚಿತ್ರರಂಗಕ್ಕೆ ಹೆಚ್ಚಿನ ಸೇವೆ ಸಲ್ಲಿಸಿಲ್ಲವೆಂಬುದು ಪತ್ರಕರ್ತರಿಂದ ಪ್ರತಿಭಟನೆ ವ್ಯಕ್ತವಾಗಿದ್ದರಿಂದ ಅದನ್ನು ಕೂಡಲೆ ಹಿಂದೆ ಪಡೆದು ಅದನ್ನು ಕಾರ್ನಾಡ್ ಅವರಿಗೆ ಭಾರ್ಗವ ನೀಡಿದ್ದರು).<br>
+                        12. ಟಾಟಾ ಲಿಟರೇಚರ್ ಲೈವ ಜೀವಮಾನ ಸಾಧನೆ (ಚಿತ್ರೋದ್ಯಮ)-2017<br>
+                        13.ಡಾ.ಟಿ.ಎಂ.ಎ.ಪೈ ವಿಶಿಷ್ಟ ಕೊಂಕಣಿ ಸಾಧಕ ಪ್ರಶಸ್ತಿ (1996)</td>
+                </tr>
+                <tr>
+                    <td><b>ಮರಣ</b></td>
+                    <td>10 June 2019 (aged 81)<br>ಬೆಂಗಳೂರು</td>
+                </tr>
+                <tr>
+                    <td><b>ಪ್ರಕಾರ/ಶೈಲಿ</b></td>
+                    <td>ನಾಟಕ</td>
+                </tr>
+                <tr>
+                    <td><b></b></td>
+                    <td>ಗಿರೀಶ್ ಕಾರ್ನಾಡ್ (೧೯ ಮೇ ೧೯೩೮ - ೧೦ ಜೂನ್ ೨೦೧೯) ಭಾರತದ ನಾಟಕಕಾರರು, ಲೇಖಕರು, ರಂಗಕರ್ಮಿ, ಸಿನಿಮಾನಟ,ನಿರ್ದೇಶಕ, ಚಿಂತಕ ಹಾಗೂ ಹೋರಾಟಗಾರರು. ಕನ್ನಡ ಮತ್ತು ಇಂಗ್ಲೀಷ್ ಭಾಷೆಗಳಲ್ಲಿ ಅವರು ತಮ್ಮ ಸಾಹಿತ್ಯ ಮತ್ತು ಇತರ ಕೃತಿಗಳನ್ನು ರಚಿಸಿದ್ದಾರೆ</td>
+                </tr>
+            </table>
+            <button class="back-btn" onclick="hideWinnerDetails()">Back to Winners</button>
+        </div>
+        
+        <div id="kambar-details" class="winner-details">
+            <h3>ಚಂದ್ರಶೇಖರ ಕಂಬಾರ</h3>
+            <img src="./kambar.jpg" alt="Chandrashekhara Kambar">
+            <table>
+                <tr>
+                    <td><b>ಜನನ</b></td>
+                    <td>೨ ಜನವರಿ ೧೯೩೭<br>ಘೋಡಗೇರಿ ಗ್ರಾಮ, ಹುಕ್ಕೇರಿ ತಾಲೂಕ, ಬೆಳಗಾವಿ ಜಿಲ್ಲೆ</td>
+                </tr>
+                <tr>
+                    <td><b>ಕೃತಿ</b></td>
+                    <td>ಸಮಗ್ರ ಸಾಹಿತ್ಯ ಕೊಡುಗೆ-೨೦೧೦</td>
+                </tr>
+                <tr>
+                    <td><b>ವೃತ್ತಿ</b></td>
+                    <td>ಲೇಖಕ</td>
+                </tr>
+                <tr>
+                    <td><b>ಪ್ರಶಸ್ತಿಗಳು ಮತ್ತು ಸನ್ಮಾನಗಳು</b></td>
+                    <td>1.ಅಕಾಡೆಮಿ ರತ್ನ ಪ್ರಶಸ್ತಿ ೨೦೧೧(ಕೇಂದ್ರ ಸಂಗೀತ ನಾಟಕ ಅಕಾಡೆಮಿ)<br>
+                        2.ಜ್ಞಾನಪೀಠ ಪ್ರಶಸ್ತಿ ೨೦೧೦<br>
+                        3.ದೇವರಾಜ ಅರಸ್ ಪ್ರಶಸ್ತಿ ೨೦೦೭<br>
+                        4.ಜೋಶು ಸಾಹಿತ್ಯ ಪುರಸ್ಕಾರಂ ೨೦೦೫ (ಆಂದ್ರಪ್ರದೇಶ ಸರಕಾರ)<br>
+                        5.ನಾಡೋಜ ಪ್ರಶಸ್ತಿ ೨೦೦೪ (ಹಂಪಿ ಕನ್ನಡ ವಿಶ್ವವಿದ್ಯಾಲಯ)<br>
+                        6.ಪಂಪ ಪ್ರಶಸ್ತಿ ೨೦೦೪<br>
+                        7.ಸಂತ ಕಬೀರ್ ಪ್ರಶಸ್ತಿ ೨೦೦೨<br>
+                        8.೨೦೦೬ರ ಆಳ್ವಾಸ ನುಡಿಸಿರಿ ಸಮ್ಮೇಳನದ ಅಧ್ಯಕ್ಷರು<br>
+                        9.೨೦೦೪ ರಿಂದ ೨೦೧೦ರ ವರೆಗೆ ವಿಧಾನ ಪರಿಷತ್ ಸದಸ್ಯ<br>
+                        10.ಪದ್ಮಶ್ರೀ ಪ್ರಶಸ್ತಿ ೨೦೦೧<br>
+                        11.ಮಾಸ್ತಿ ಪ್ರಶಸ್ತಿ ೧೯೯೭ (ಕರ್ನಾಟಕ ಸರಕಾರ)<br>
+                        12.ಜಾನಪದ ಮತ್ತು ಯಕ್ಷಗಾನೊ ಅಕಾಡೆಮಿ ಪ್ರಶಸ್ತಿ ೧೯೯೩<br>
+                        13.ಸಿರಿಸಂಪಿಗೆ ನಾಟಕಕ್ಕೆ ಕೇಂದ್ರ ಸಾಹಿತ್ಯ ಅಕಾಡೆಮಿ ಪ್ರಶಸ್ತಿ ೧೯೯೧<br>
+                        14.ಕರ್ನಾಟಕ ಸಾಹಿತ್ಯ ಅಕಾಡೆಮಿ ಪ್ರಶಸ್ತಿ ೧೯೮೯<br>
+                        15.ಕರ್ನಾಟಕ ರಾಜ್ಯೋತ್ಸವ ಪ್ರಶಸ್ತಿ ೧೯೮೮<br>
+                        16.ನಂದಿಕರ್ ಪ್ರಶಸ್ತಿ ೧೯೮೭ (ಕಲ್ಕತ್ತ)<br>
+                        17.ಕರ್ನಾಟಕ ನಾಟಕ ಅಕಾಡೆಮಿ ಪ್ರಶಸ್ತಿ ೧೯೮೭<br>
+                        18.ಸಂಗೀತ ನಾಟಕ ಅಕಾಡೆಮಿ ೧೯೮೩<br>
+                        19.ಕುಮಾರ ಆಶನ್ ಪ್ರಶಸ್ತಿ ೧೯೮೨ (ಕೇರಳ ಸರಕಾರ)<br>
+                        20.ಕನ್ನಡ ಸಾಹಿತ್ಯ ಪರಿಷತ್ ಪ್ರಶಸ್ತಿ ೧೯೭೫<br>
+                        21.ಮಧ್ಯಪ್ರದೇಶ ಸರ್ಕಾರ ಕೊಡುವ ಕಾಳಿದಾಸ ಸಮ್ಮಾನ್ ಪ್ರಶಸ್ತಿ<br>
+                        22."ಜೋ ಕುಮಾರಸ್ವಾಮಿ" ನಾಟಕಕ್ಕೆ ೧೯೭೫ದ ಭಾರತೀಯ ಭಾಷೆಯ ಅತ್ಯುತ್ತಮ ನಾಟಕ - ಕಮಲಾದೇವಿ ಚಟ್ಟೋಪಾಧ್ಯಾಯ ಪ್ರಶಸ್ತಿ<br>
+                        23.ಶಿಖರ ಸೂರ್ಯ ಪುಸ್ತಕಕ್ಕೆ ಟ್ಯಾಗೋರ್‌ ಪ್ರಶಸ್ತಿ,</td>
+                </tr>
+                <tr>
+                    <td><b>ಪ್ರಕಾರ/ಶೈಲಿ</b></td>
+                    <td>ಕಥೆ, ಕವನ, ಕಾದಂಬರಿ, ನಾಟಕ</td>
+                </tr>
+                <tr>
+                    <td><b></b></td>
+                    <td>ಡಾ. ಚಂದ್ರಶೇಖರ ಕಂಬಾರ ಕಥೆಗಾರ, ಕವಿ, ಕಾದಂಬರಿಕಾರ, ನಾಟಕಕಾರ, ಬೆಂಗಳೂರು ವಿಶ್ವವಿದ್ಯಾಲಯದ ಅಧ್ಯಾಪಕರು, ಕರ್ನಾಟಕ ಜನಪದ ಅಕಾಡೆಮಿಯ ಅಧ್ಯಕ್ಷರು, ನವದೆಹಲಿಯ ರಾಷ್ಟ್ರೀಯ ನಾಟಕ ಶಾಲೆಯ ನಿರ್ದೇಶಕರು, ಹಂಪಿ ಕನ್ನಡ ವಿವಿಯ ಮೊದಲ ಕುಲಪತಿಯಾಗಿ ಡಾ.ಚಂದ್ರಶೇಖರ ಕಂಬಾರ ಅವರು ಕಾರ್ಯನಿರ್ವಹಿಸಿದ್ದಾರೆ. ೧೯೬೮-೬೯ ಚಿಕಾಗೊ ವಿಶ್ವವಿದ್ಯಾನಿಲಯದಲ್ಲಿ ಕನ್ನಡ ಅಧ್ಯಾಪಕರಾಗಿ ಸೇವೆ ಸಲ್ಲಿಸಿದ್ದಾರೆ. ಚಿಕಾಗೊ, ನ್ಯೂಯಾರ್ಕ್, ಬರ್ಲಿನ್, ಮಾಸ್ಕೋ, ಜಪಾನ್ ಮುಂತಾದೆಡೆಗಳ ಕೆಲವು ವಿಶ್ವವಿದ್ಯಾನಿಲಯಗಳಲ್ಲಿ ಜಾನಪದ ಮತ್ತು ರಂಗಭೂಮಿ ಕುರಿತ ಉಪನ್ಯಾಸಗಳನ್ನು ನೀಡಿರುವ ಹೆಗ್ಗಳಿಕೆ ಇವರದು.</td>
+                </tr>
+            </table>
+            <button class="back-btn" onclick="hideWinnerDetails()">Back to Winners</button>
+        </div>
+    </section>
+    
+    <footer>
+        &copy; 2023 LearnHub - Interactive Learning Platform. All Rights Reserved.
+    </footer>
+    
+    <script>
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Show selected section
+            document.getElementById(sectionId).classList.add('active');
+            
+            // Hide all winner details
+            document.querySelectorAll('.winner-details').forEach(detail => {
+                detail.classList.remove('active');
+            });
+            
+            // Update active nav button
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Find and activate the corresponding nav button
+            const navButtons = document.querySelectorAll('.nav-btn');
+            for (let btn of navButtons) {
+                if (btn.getAttribute('onclick').includes(sectionId)) {
+                    btn.classList.add('active');
+                    break;
+                }
+            }
+            
+            // Special case for home button
+            if (sectionId === 'home') {
+                document.querySelector('.nav-btn').classList.add('active');
+            }
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+        
+        function showWinnerDetails(winnerId) {
+            // Hide all winner details
+            document.querySelectorAll('.winner-details').forEach(detail => {
+                detail.classList.remove('active');
+            });
+            
+            // Show selected winner details
+            document.getElementById(winnerId + '-details').classList.add('active');
+            
+            // Scroll to the details section
+            document.getElementById(winnerId + '-details').scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        function hideWinnerDetails() {
+            // Hide all winner details
+            document.querySelectorAll('.winner-details').forEach(detail => {
+                detail.classList.remove('active');
+            });
+            
+            // Scroll back to top of winners section
+            document.getElementById('award').scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
