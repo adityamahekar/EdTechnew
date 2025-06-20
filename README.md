@@ -2,14 +2,14 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Bluetooth Pick and Place Robot</title>
+\
 </head>
 <body>
 
-  <h1>🤖 Bluetooth-Controlled Pick and Place Robot</h1>
+  <h1>EdTech</h1>
 
   <p>
-    A microcontroller-based robot controlled via a Bluetooth terminal app using numeric commands (1–10). It allows the user to turn the system on/off, control movement (forward, backward, left, right), and operate the robotic arm (lift, lower, open, close). Designed for automation and simple object-handling tasks.
+    An interactive educational platform designed to enhance online learning experiences for students and educators. The system offers a structured environment for course management, content delivery, quizzes, and real-time progress tracking.
   </p>
 
   <hr>
