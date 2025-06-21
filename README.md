@@ -1,4 +1,5 @@
-<p>
+<h1>EdTech</h1>
+  <p>
 An interactive educational platform designed to enhance online learning experiences for students and educators. The system offers a structured environment for course management, content delivery, quizzes, and real-time progress tracking.
 </p>
 <hr>
