@@ -15,7 +15,7 @@ The system offers a structured environment for **course management, content deli
 - 📝 Quiz creation & assessment  
 - 📊 Real-time progress tracking  
 - 🎨 Responsive UI for students & educators  
-- 🖥️ Built with HTML, CSS (expandable for JS if needed)  
+- 🖥️ Built with HTML, CSS, JS
 
 ---
 
