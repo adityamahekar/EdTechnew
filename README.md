@@ -41,6 +41,7 @@ The system offers a structured environment for **course management, content deli
 | ![Mathematics Page](ed5.png) | ![Poet List](ed6.png) |
 
 | Poet Details|
+|------------------|
 |![Poet Details](ed7.png)  |
 
 
