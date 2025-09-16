@@ -25,23 +25,23 @@ The system offers a structured environment for **course management, content deli
 
 ---
 
+
 ## 📷 Gallery  
 
-| Screenshot 1 | Screenshot 2 |
-|--------------|--------------|
-| ![Screenshot 1](https://i.postimg.cc/tswKGbtb/Screenshot-2025-06-20-214348.png) | ![Screenshot 2](https://i.postimg.cc/Z9N1TQVd/Screenshot-2025-06-20-214425.png) |
+| Home Page | English Page |
+|-----------|--------------|
+| ![Home Page](ed1.png) | ![English Page](ed2.png) |
 
-| Screenshot 3 | Screenshot 4 |
-|--------------|--------------|
-| ![Screenshot 3](https://i.postimg.cc/nM1fj6ZK/Screenshot-2025-06-20-214438.png) | ![Screenshot 4](https://i.postimg.cc/nCR8TBXC/Screenshot-2025-06-20-214458.png) |
+| Hindi Page | Kannada Page |
+|------------|--------------|
+| ![Hindi Page](ed3.png) | ![Kannada Page](ed4.png) |
 
-| Screenshot 5 | Screenshot 6 |
-|--------------|--------------|
-| ![Screenshot 5](https://i.postimg.cc/CzLTjmL3/Screenshot-2025-06-20-214509.png) | ![Screenshot 6](https://i.postimg.cc/RWNkYhtG/Screenshot-2025-06-20-214520.png) |
+| Mathematics Page | Jnanpith Award Winner Poet List |
+|------------------|--------------------------------|
+| ![Mathematics Page](ed5.png) | ![Poet List](ed6.png) |
 
-### Full Dashboard  
-![Screenshot 7](https://i.postimg.cc/yWKzNVqY/Screenshot-2025-06-20-214544.png)  
+| Poet Details|
+|![Poet Details](ed7.png)  |
 
----
-   ```bash
-   git clone https://github.com/adityamahekar/EdTechnew.git
+
+
