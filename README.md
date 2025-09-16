@@ -36,7 +36,7 @@ The system offers a structured environment for **course management, content deli
 |------------|--------------|
 | ![Hindi Page](ed3.png) | ![Kannada Page](ed4.png) |
 
-| Mathematics Page | Jnanpith Award Winner Poet List |
+| Mathematics Page | Jnayapith Award Winner Poet List |
 |------------------|--------------------------------|
 | ![Mathematics Page](ed5.png) | ![Poet List](ed6.png) |
 
